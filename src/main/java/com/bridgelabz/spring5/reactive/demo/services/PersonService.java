@@ -28,4 +28,8 @@ public class PersonService {
 			return personRepository.save(person);
 		});
 	}
+	
+	public Mono<Void> deletePerson(String id) {
+		return personRepository.deleteById(id);
+	}
 }
