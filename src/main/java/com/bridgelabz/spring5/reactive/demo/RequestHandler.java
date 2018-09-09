@@ -20,6 +20,10 @@ public class RequestHandler {
 	public Mono<ServerResponse> getPersons(ServerRequest request){
 		return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(demoService.getPersons(), Person.class);
 	}
+	
+	public Mono<ServerResponse> getPerson(ServerRequest request){
+		return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(demoService.getPerson(request.pathVariable("id")), Person.class);
+	}
 
 	public Mono<ServerResponse> savePerson(ServerRequest request) {
 		return ServerResponse

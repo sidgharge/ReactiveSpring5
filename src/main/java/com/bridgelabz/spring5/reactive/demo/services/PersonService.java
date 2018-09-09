@@ -19,9 +19,13 @@ public class PersonService {
 		return personRepository.findAll();
 	}
 
+	public Mono<Person> getPerson(String id) {
+		return personRepository.findById(id);
+	}
+
 	public Mono<Person> savePerson(Mono<Person> monoPerson) {
 		return monoPerson.flatMap(person -> {
-			return personRepository.save(person);			
+			return personRepository.save(person);
 		});
 	}
 }

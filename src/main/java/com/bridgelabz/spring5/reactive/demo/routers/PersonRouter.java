@@ -19,8 +19,7 @@ public class PersonRouter {
 	public RouterFunction<?> routes() {
 		return RouterFunctions.nest(RequestPredicates.path("/persons"),
 				RouterFunctions.route(RequestPredicates.GET("/"), handler::getPersons)
-						.andRoute(RequestPredicates.POST("/"), request -> {
-							return handler.savePerson(request);
-						}));
+						.andRoute(RequestPredicates.POST("/"), handler::savePerson)
+						.andRoute(RequestPredicates.GET("/{id}"), handler::getPerson));
 	}
 }
