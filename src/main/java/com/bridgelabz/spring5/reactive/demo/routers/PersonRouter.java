@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.bridgelabz.spring5.reactive.demo.handlers.MathsHandler;
 import com.bridgelabz.spring5.reactive.demo.handlers.RequestHandler;
@@ -18,19 +19,28 @@ public class PersonRouter {
 
 	@Autowired
 	private MathsHandler mathsHandler;
-	
+
 	@Bean
 	public RouterFunction<?> routes() {
 		return RouterFunctions.nest(RequestPredicates.path("/persons"),
 				RouterFunctions.route(RequestPredicates.GET("/"), handler::getPersons)
 						.andRoute(RequestPredicates.POST("/"), handler::savePerson)
 						.andRoute(RequestPredicates.GET("/{id}"), handler::getPerson)
-		/* .andRoute(RequestPredicates.DELETE("/{id}"), handler::deletePerson) */);
+						.andRoute(RequestPredicates.DELETE("/{id}"), handler::deletePerson));
 	}
 
 	@Bean
 	public RouterFunction<?> mathsroutes() {
 		return RouterFunctions.nest(RequestPredicates.path("/math"),
-				RouterFunctions.route(RequestPredicates.GET("/even/{num}"), mathsHandler::even));
+				RouterFunctions.route(RequestPredicates.GET("/even/{num}"), mathsHandler::even)
+				.andRoute(RequestPredicates.GET("/add/{num}"), mathsHandler::addToList)
+				.andRoute(RequestPredicates.GET("/list"), mathsHandler::getList))
+				/*.filter((request, next) -> {
+					if(Integer.parseInt(request.pathVariable("num")) > 10) {
+						return next.handle(request);
+					} else {
+						return ServerResponse.badRequest().build();
+					}
+				})*/;
 	}
 }

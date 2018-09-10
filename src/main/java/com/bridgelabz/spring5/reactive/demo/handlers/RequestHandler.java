@@ -23,7 +23,7 @@ public class RequestHandler {
 		
 		return ServerResponse
 				.ok()
-				.contentType(MediaType.TEXT_EVENT_STREAM)
+				.contentType(MediaType.APPLICATION_STREAM_JSON)
 				.body(personFlux, Person.class);
 	}
 	
@@ -32,7 +32,7 @@ public class RequestHandler {
 		
 		return ServerResponse
 				.ok()
-				.contentType(MediaType.TEXT_EVENT_STREAM)
+				.contentType(MediaType.APPLICATION_STREAM_JSON)
 				.body(personMono, Person.class);
 	}
 
@@ -41,18 +41,16 @@ public class RequestHandler {
 		
 		return ServerResponse
 				.ok()
-				.contentType(MediaType.TEXT_EVENT_STREAM)
+				.contentType(MediaType.APPLICATION_STREAM_JSON)
 				.body(personMono, Person.class);
 	}
 	
-//	public Mono<ServerResponse> deletePerson(ServerRequest request){
-//		Mono<Void> mono = demoService.deletePerson(request.pathVariable("id"));
-//		
-//		mono.doon
-//		
-////		return ServerResponse
-////				.ok()
-////				.contentType(MediaType.TEXT_EVENT_STREAM)
-////				.body(mono , Person.class);
-//	}
+	public Mono<ServerResponse> deletePerson(ServerRequest request){
+		Mono<Void> mono = demoService.deletePerson(request.pathVariable("id"));
+		
+		return ServerResponse
+				.ok()
+				.contentType(MediaType.APPLICATION_STREAM_JSON)
+				.body(mono , Void.class);
+	}
 }
